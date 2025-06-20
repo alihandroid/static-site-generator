@@ -1,3 +1,4 @@
+import os
 from blocks import BlockType, block_to_block_type
 from converter import markdown_to_html_node
 
@@ -23,5 +24,6 @@ def generate_page(from_path, template_path, dest_path):
         "{{ Content }}", html_node.to_html()
     )
 
+    os.makedirs(os.path.split(dest_path)[0], exist_ok=True)
     with open(dest_path, "w") as f:
         f.write(output)
