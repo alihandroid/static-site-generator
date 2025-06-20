@@ -15,7 +15,7 @@ def text_to_list_items(text):
         for i in range(len(line)):
             if line[i] == " ":
                 break
-        inner = text_to_children(line[i:])
+        inner = text_to_children(line[i + 1 :])
         child_nodes.append(ParentNode("li", inner))
     return child_nodes
 
@@ -37,7 +37,7 @@ def markdown_to_html_node(markdown):
                 count = 0
                 while block[count] == "#":
                     count += 1
-                new_node = LeafNode(f"h{count}", block)
+                new_node = LeafNode(f"h{count}", block[count + 1 :])
             case BlockType.CODE:
                 text_node = TextNode(block[4:-3], TextType.TEXT)
                 inner = text_node_to_html_node(text_node)
@@ -50,8 +50,8 @@ def markdown_to_html_node(markdown):
                     [code],
                 )
             case BlockType.QUOTE:
-                inner = text_to_children(block.replace(">", ""))
-                new_node = LeafNode("blockquote", inner)
+                inner = text_to_children(block.replace("> ", "").replace(">", ""))
+                new_node = ParentNode("blockquote", inner)
             case BlockType.UNORDERED_LIST:
                 child_nodes = text_to_list_items(block)
                 new_node = ParentNode("ul", child_nodes)
