@@ -37,7 +37,8 @@ def markdown_to_html_node(markdown):
                 count = 0
                 while block[count] == "#":
                     count += 1
-                new_node = LeafNode(f"h{count}", block[count + 1 :])
+                inner = text_to_children(block[count + 1 :])
+                new_node = ParentNode(f"h{count}", inner)
             case BlockType.CODE:
                 text_node = TextNode(block[4:-3], TextType.TEXT)
                 inner = text_node_to_html_node(text_node)
