@@ -10,7 +10,7 @@ def extract_title(markdown):
     return False
 
 
-def generate_page(from_path, template_path, dest_path):
+def generate_page(from_path, template_path, dest_path, basepath):
     with open(from_path) as f:
         markdown = f.read()
 
@@ -20,8 +20,11 @@ def generate_page(from_path, template_path, dest_path):
     with open(template_path) as f:
         template = f.read()
 
-    output = template.replace("{{ Title }}", title).replace(
-        "{{ Content }}", html_node.to_html()
+    output = (
+        template.replace("{{ Title }}", title)
+        .replace("{{ Content }}", html_node.to_html())
+        .replace('href="/', f'href="{basepath}')
+        .replace('src="/', f'src="{basepath}')
     )
 
     os.makedirs(os.path.split(dest_path)[0], exist_ok=True)
