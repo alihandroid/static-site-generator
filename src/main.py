@@ -1,9 +1,14 @@
+import os
+import shutil
 from textnode import *
+
+STATIC_PATH = "./static"
+PUBLIC_PATH = "./public"
 
 
 def main():
-    dummy = TextNode("This is some anchor text", TextType.LINK, "https://www.boot.dev")
-    print(dummy)
+    shutil.rmtree(PUBLIC_PATH)
+    shutil.copytree(STATIC_PATH, PUBLIC_PATH)
 
 
 if __name__ == "__main__":
